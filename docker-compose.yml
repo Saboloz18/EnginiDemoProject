@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: EnginiDemoProject.Api/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=db;Database=EnginiDemoProject;User Id=sa;Password=VeryStrongPassword123@;TrustServerCertificate=True;
+
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=VeryStrongPassword123@
+    volumes:
+      - sqlserver_data:/var/opt/mssql 
+
+volumes:
+  sqlserver_data:
